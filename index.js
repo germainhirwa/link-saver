@@ -130,4 +130,89 @@ document.addEventListener('DOMContentLoaded', function() {
         message.textContent = text;
         message.className = type;
     }
+
+    function displaySavedLinks(category = 'all') {
+        const savedLinks = JSON.parse(localStorage.getItem('savedLinks')) || [];
+        linksList.innerHTML = '';
+        savedLinks.forEach((link, index) => {
+            if (category === 'all' || link.category === category) {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <strong>${link.name}</strong><br>
+                    URL: <a href="${link.link}" target="_blank">${link.link}</a><br>
+                    Category: ${link.category}<br>
+                    Saved on: ${new Date(link.date).toLocaleString()}
+                    <div class="link-actions">
+                        <button class="update-btn" data-index="${index}">Update</button>
+                        <button class="delete-btn" data-index="${index}">Delete</button>
+                    </div>
+                `;
+                linksList.appendChild(li);
+            }
+        });
+
+        // Add event listeners for update and delete buttons
+        document.querySelectorAll('.update-btn').forEach(btn => {
+            btn.addEventListener('click', handleUpdate);
+        });
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', handleDelete);
+        });
+    }
+
+    function handleUpdate(e) {
+        const index = e.target.getAttribute('data-index');
+        const savedLinks = JSON.parse(localStorage.getItem('savedLinks')) || [];
+        const linkToUpdate = savedLinks[index];
+
+        // Populate the form with the link's current data
+        linkInput.value = linkToUpdate.link;
+        nameInput.value = linkToUpdate.name;
+        categorySelect.value = linkToUpdate.category;
+        if (categorySelect.value === 'other') {
+            newCategoryInput.style.display = 'block';
+            newCategoryInput.value = linkToUpdate.category;
+        }
+
+        // Change the form submission behavior temporarily
+        form.onsubmit = function(e) {
+            e.preventDefault();
+            updateLink(index);
+            // Reset form submission behavior
+            form.onsubmit = null;
+        };
+
+        // Scroll to the form
+        form.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function updateLink(index) {
+        const savedLinks = JSON.parse(localStorage.getItem('savedLinks')) || [];
+        const updatedLink = {
+            link: linkInput.value,
+            name: nameInput.value || linkInput.value,
+            category: categorySelect.value === 'other' ? newCategoryInput.value : categorySelect.value,
+            date: new Date().toISOString()
+        };
+
+        savedLinks[index] = updatedLink;
+        localStorage.setItem('savedLinks', JSON.stringify(savedLinks));
+
+        showMessage('Link updated successfully!', 'success');
+        form.reset();
+        displaySavedLinks(filterCategory.value);
+    }
+
+    function handleDelete(e) {
+        if (confirm('Are you sure you want to delete this link?')) {
+            const index = e.target.getAttribute('data-index');
+            const savedLinks = JSON.parse(localStorage.getItem('savedLinks')) || [];
+            savedLinks.splice(index, 1);
+            localStorage.setItem('savedLinks', JSON.stringify(savedLinks));
+
+            showMessage('Link deleted successfully!', 'success');
+            displaySavedLinks(filterCategory.value);
+        }
+    }
+
 });
