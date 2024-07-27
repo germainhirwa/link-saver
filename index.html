@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Saver</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Link Saver</h1>
+            <div class="social-icons">
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </header>
+        
+        <form id="linkForm">
+            <input type="url" id="linkInput" placeholder="Paste your link here" required>
+            <input type="text" id="nameInput" placeholder="Name your link (optional)">
+            <select id="categorySelect">
+                <option value="">Select a category</option>
+                <option value="instagram">Instagram</option>
+                <option value="facebook">Facebook</option>
+                <option value="twitter">Twitter</option>
+                <option value="youtube">YouTube</option>
+                <option value="other">Other</option>
+            </select>
+            <input type="text" id="newCategoryInput" placeholder="Or create a new category" style="display: none;">
+            <div id="loadingBar"><div class="bar"></div></div>
+            <button type="submit">Save Link</button>
+        </form>
+        
+        <div id="message"></div>
+
+        <div class="saved-links-controls">
+            <button id="showSavedLinksBtn">Show Saved Links</button>
+            <select id="filterCategory">
+                <option value="all">All Categories</option>
+                <option value="instagram">Instagram</option>
+                <option value="facebook">Facebook</option>
+                <option value="twitter">Twitter</option>
+                <option value="youtube">YouTube</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div id="savedLinks" style="display: none;">
+            <h2>Saved Links</h2>
+            <ul id="linksList"></ul>
+        </div>
+    </div>
+
+    <div id="confirmationPopup" class="popup">
+        <div class="popup-content">
+            <h2>Confirm Save</h2>
+            <p id="popupMessage"></p>
+            <button id="confirmSave">Save</button>
+            <button id="cancelSave">Cancel</button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
