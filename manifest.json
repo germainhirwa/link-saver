@@ -1,0 +1,31 @@
+{
+    "manifest_version": 3,
+    "name": "Link Saver",
+    "version": "1.0",
+    "description": "Save, categorize, and access your important links with ease.",
+    "permissions": [
+      "storage",
+      "activeTab"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "images/16icon.png",
+        "48": "images/48icon.png",
+        "128": "images/128icon.png"
+      }
+    },
+    "icons": {
+      "16": "images/16icon.png",
+      "48": "images/48icon.png",
+      "128": "images/128icon.png"
+    },
+    "web_accessible_resources": [{
+      "resources": [
+        "images/*",
+        "fontawesome/css/*",
+        "fontawesome/webfonts/*"
+      ],
+      "matches": ["<all_urls>"]
+    }]
+  }
