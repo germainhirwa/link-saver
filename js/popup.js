@@ -76,18 +76,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function saveLink(linkData) {
         chrome.storage.sync.get({savedLinks: []}, function(result) {
+            if (chrome.runtime.lastError) {
+                console.error('Error fetching saved links:', chrome.runtime.lastError);
+                showMessage('Error fetching saved links. Please try again.', 'error');
+                return;
+            }
+    
             let savedLinks = result.savedLinks;
             savedLinks.push(linkData);
             chrome.storage.sync.set({savedLinks: savedLinks}, function() {
-                showMessage('Link saved successfully!', 'success');
-                form.reset();
-                displaySavedLinks();
+                if (chrome.runtime.lastError) {
+                    console.error('Error saving link:', chrome.runtime.lastError);
+                    showMessage('Error saving link. Please try again.', 'error');
+                } else {
+                    showMessage('Link saved successfully!', 'success');
+                    form.reset();
+                    displaySavedLinks();
+                }
             });
         });
     }
 
     function displaySavedLinks(category = 'all') {
         chrome.storage.sync.get({savedLinks: []}, function(result) {
+            
+            if (chrome.runtime.lastError) {
+                console.error('Error fetching saved links:', chrome.runtime.lastError);
+                showMessage('Error fetching saved links. Please try again.', 'error');
+                return;
+            }
+
             const savedLinks = result.savedLinks;
             linksList.innerHTML = '';
             savedLinks.forEach((link, index) => {
