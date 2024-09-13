@@ -1,11 +1,10 @@
 {
     "manifest_version": 3,
     "name": "Link Saver",
-    "version": "1.0",
-    "description": "Save, categorize, and access your important links with ease.",
+    "version": "1.3",
+    "description": "Save, categorize, and access your important links or entertaining reels with ease.",
     "permissions": [
-      "storage",
-      "activeTab"
+      "storage"
     ],
     "action": {
       "default_popup": "popup.html",
